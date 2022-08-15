@@ -4,9 +4,11 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.graphics.*;
-import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import io.ppettytheftt.practice.entities.Enemy;
+import io.ppettytheftt.practice.entities.Player;
 
 
 // Gamescreen is the main Class I think
@@ -19,13 +21,12 @@ public class GameScreen extends ScreenAdapter {
     private SpriteBatch sb;
     private OrthographicCamera cam;
 
-    private Texture texture;
-    private Sprite sprite;
 
     private float runTime;
-    private float blockX;
-    private float blockY;
-    private float blockSpeed = 10;
+
+    // Entities
+    private Player player;
+    private Enemy enemy;
 
     //constructor
     public GameScreen(Game game) {
@@ -49,7 +50,8 @@ public class GameScreen extends ScreenAdapter {
 
         // render things here
         sb.begin();
-        sprite.draw(sb);
+        player.render(sb);
+        enemy.render(sb);
         sb.end();
     }
 
@@ -61,7 +63,8 @@ public class GameScreen extends ScreenAdapter {
 
         cam.setToOrtho(false, 5f, 5f);
 
-        createGraphics();
+        player = new Player();
+        enemy = new Enemy(3.5f);
         Gdx.app.log(ID, "The game is running");
     }
 
@@ -77,49 +80,33 @@ public class GameScreen extends ScreenAdapter {
 
     // this is where we create our graphics
     private void createGraphics() {
-        int width = 8;
-        int height = 8;
 
-        Pixmap pixmap = new Pixmap(width, height, Pixmap.Format.RGB888);
-        pixmap.setColor(Color.WHITE);
-        pixmap.fill();
-        pixmap.drawRectangle(0, 0, width, height);
-
-        // Texture
-        texture = new Texture(pixmap);
-
-        // Our sprite
-        sprite = new Sprite(texture);
-        sprite.setPosition(blockX, blockY);
-        sprite.setSize(.5f, .5f);
     }
 
     // our update method
     private void update(float deltaTime) {
         runTime += deltaTime;
 
+        player.update(deltaTime);
         handleInput();
-
-        sprite.rotate(1f);
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
     }
 
     //Handle Input
     private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-            sprite.translate(-.03f,0);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-            sprite.translate(.03f, 0);
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
-            sprite.translate(0, .03f);
+
         }
-    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
-        sprite.translate(0, -.03f);
-    }
-    if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
-        Gdx.app.exit();
-    }
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+            Gdx.app.exit();
+        }
     }
 }

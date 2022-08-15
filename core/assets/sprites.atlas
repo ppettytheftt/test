@@ -1,0 +1,31 @@
+
+sprites.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Characters/kittykat
+  rotate: false
+  xy: 1, 1
+  size: 256, 32
+  orig: 256, 32
+  offset: 0, 0
+  index: -1
+
+sprites2.png
+format: RGBA8888
+filter: Nearest,Nearest
+repeat: none
+Decorate/bundle_fire_animation
+  rotate: false
+  xy: 1, 1
+  size: 384, 32
+  orig: 384, 32
+  offset: 0, 0
+  index: -1
+Decorate/wall_torch_animation
+  rotate: false
+  xy: 387, 1
+  size: 320, 32
+  orig: 320, 32
+  offset: 0, 0
+  index: -1
