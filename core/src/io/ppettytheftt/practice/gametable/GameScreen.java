@@ -2,6 +2,7 @@ package io.ppettytheftt.practice.gametable;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.*;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -21,6 +22,11 @@ public class GameScreen extends ScreenAdapter {
     private Texture texture;
     private Sprite sprite;
 
+    private float runTime;
+    private float blockX;
+    private float blockY;
+    private float blockSpeed = 10;
+
     //constructor
     public GameScreen(Game game) {
         this.game = game;
@@ -32,14 +38,14 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float deltaTime) {
         // buffer screen
-        Gdx.gl20.glClearColor(11f /255.0f, 11f/255.0f, 11f/255.0f, 1);
+        Gdx.gl20.glClearColor(11f / 255.0f, 11f / 255.0f, 11f / 255.0f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         sb.setProjectionMatrix(cam.combined);
 
         // update
-        sprite.rotate(1f);
-        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+        update(deltaTime);
+
 
         // render things here
         sb.begin();
@@ -84,8 +90,33 @@ public class GameScreen extends ScreenAdapter {
 
         // Our sprite
         sprite = new Sprite(texture);
-        sprite.setPosition(1f, 1f);
+        sprite.setPosition(blockX, blockY);
         sprite.setSize(.5f, .5f);
+    }
 
+    // our update method
+    private void update(float deltaTime) {
+        runTime += deltaTime;
+
+        handleInput();
+
+        sprite.rotate(1f);
+        sprite.setOrigin(sprite.getWidth() / 2, sprite.getHeight() / 2);
+    }
+
+    //Handle Input
+    private void handleInput() {
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
+            sprite.translate(-.03f,0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) {
+            sprite.translate(.03f, 0);
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) {
+            sprite.translate(0, .03f);
+        }
+    if (Gdx.input.isKeyPressed(Input.Keys.S)) {
+        sprite.translate(0, -.03f);
+    }
     }
 }

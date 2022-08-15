@@ -2,7 +2,7 @@ package io.ppettytheftt.practice.desktop;
 
 import com.badlogic.gdx.backends.lwjgl.LwjglApplication;
 import com.badlogic.gdx.backends.lwjgl.LwjglApplicationConfiguration;
-import io.ppettytheftt.practice.MyGdxGame;
+import io.ppettytheftt.practice.gametable.GameTable;
 import io.ppettytheftt.practice.handlers.Constant;
 
 public class DesktopLauncher implements Constant {
@@ -13,6 +13,6 @@ public class DesktopLauncher implements Constant {
 		config.width = GAME_WIDTH;
 		config.height = GAME_HEIGHT;
 
-		new LwjglApplication(new MyGdxGame(), config);
+		new LwjglApplication(new GameTable(), config);
 	}
 }
