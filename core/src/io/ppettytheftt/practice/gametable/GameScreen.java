@@ -118,5 +118,8 @@ public class GameScreen extends ScreenAdapter {
     if (Gdx.input.isKeyPressed(Input.Keys.S)) {
         sprite.translate(0, -.03f);
     }
+    if (Gdx.input.isKeyPressed(Input.Keys.ESCAPE)) {
+        Gdx.app.exit();
+    }
     }
 }
