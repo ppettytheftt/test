@@ -1,7 +1,11 @@
 package io.ppettytheftt.practice.handlers;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Music;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.utils.Disposable;
@@ -17,11 +21,16 @@ public class Assets implements Disposable {
     private TextureAtlas characterAtlas;
     private TextureAtlas decorationAtlas;
 
-    // enemies
+    //font
+    private BitmapFont titleFont;
+
+    // Game Objects
     private TextureAtlas.AtlasRegion wizard, smallFire;
     private Animation fire_animation;
 
-
+    // Audio
+    private Music bgm;
+    private Sound glitchEffect;
 
     // empty constructor
     private Assets() {
@@ -49,10 +58,20 @@ public class Assets implements Disposable {
         decorationAtlas = manager.get(DECORE_PATH, TextureAtlas.class);
 
         smallFire = decorationAtlas.findRegion("bundle_fire_animation");
-        TextureRegion[][] small_fire_sprite = smallFire.split(32,32);
+        TextureRegion[][] small_fire_sprite = smallFire.split(32, 32);
         // creates animation
         fire_animation = new Animation<TextureRegion>(5f / 60f, small_fire_sprite[0]);
         fire_animation.setPlayMode(Animation.PlayMode.LOOP);
+
+        //load audio
+        // music
+        bgm = Gdx.audio.newMusic(Gdx.files.internal("test-song.mp3"));
+        // Sound effect
+        glitchEffect = Gdx.audio.newSound(Gdx.files.internal("glitch_effect.mp3"));
+
+        // load font
+        titleFont = new BitmapFont(Gdx.files.internal("openingScreenFnt.fnt"));
+
     }
 
     // getters
@@ -64,9 +83,24 @@ public class Assets implements Disposable {
         return fire_animation;
     }
 
+    public Music getBgm() {
+        return bgm;
+    }
+
+    public BitmapFont getTitleFont() {
+        return titleFont;
+    }
+
+    public Sound getGlitchEffect() {
+        return glitchEffect;
+    }
 
     @Override
     public void dispose() {
         characterManager.dispose();
+        decorationManager.dispose();
+        bgm.dispose();
+        glitchEffect.dispose();
+        titleFont.dispose();
     }
 }

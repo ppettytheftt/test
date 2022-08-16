@@ -1,28 +1,24 @@
 package io.ppettytheftt.practice.gametable;
 
-import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.ppettytheftt.practice.entities.Enemy;
 import io.ppettytheftt.practice.entities.Player;
 import io.ppettytheftt.practice.entities.environment.SmallFire;
+import io.ppettytheftt.practice.handlers.Assets;
+import io.ppettytheftt.practice.handlers.GameStateManager;
 
 
 // Gamescreen is the main Class I think
-public class GameScreen extends ScreenAdapter {
+public class GameScreen extends GameStateManager {
 
     private final String ID = getClass().getName();
 
     // variables
-    private Game game;
-    private SpriteBatch sb;
-    private OrthographicCamera cam;
-
-
+    private GameTable gameTable;
     private float runTime;
 
     // Entities
@@ -30,9 +26,10 @@ public class GameScreen extends ScreenAdapter {
     private Enemy enemy;
     private SmallFire small_fire;
 
+
     //constructor
-    public GameScreen(Game game) {
-        this.game = game;
+    public GameScreen(GameTable gameTable) {
+        super(gameTable);
 
         Gdx.app.log(ID, "This class is loaded!");
     }
@@ -41,7 +38,7 @@ public class GameScreen extends ScreenAdapter {
     @Override
     public void render(float deltaTime) {
         // buffer screen
-        Gdx.gl20.glClearColor(11f / 255.0f, 11f / 255.0f, 11f / 255.0f, 1);
+        Gdx.gl20.glClearColor(50f / 255.0f, 11f / 255.0f, 11f / 255.0f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
         sb.setProjectionMatrix(cam.combined);
@@ -55,6 +52,8 @@ public class GameScreen extends ScreenAdapter {
         player.render(sb);
         enemy.render(sb);
         small_fire.render(sb);
+        sb.setProjectionMatrix(font_cam.combined);
+
         sb.end();
     }
 
@@ -66,9 +65,18 @@ public class GameScreen extends ScreenAdapter {
 
         cam.setToOrtho(false, 5f, 5f);
 
+        font_cam = new OrthographicCamera();
+        font_cam.setToOrtho(false, GAME_WIDTH, GAME_HEIGHT);
+
+        // game objects
         player = new Player();
         enemy = new Enemy(3.5f);
         small_fire = new SmallFire();
+
+        //Audio
+        Assets.portal.getBgm().setVolume(.5f);
+        Assets.portal.getBgm().play();
+
         Gdx.app.log(ID, "The game is running");
     }
 
@@ -88,7 +96,8 @@ public class GameScreen extends ScreenAdapter {
     }
 
     // our update method
-    private void update(float deltaTime) {
+    @Override
+    public void update(float deltaTime) {
         runTime += deltaTime;
 
         player.update(deltaTime);
@@ -101,9 +110,11 @@ public class GameScreen extends ScreenAdapter {
     private void handleInput() {
         if (Gdx.input.isKeyPressed(Input.Keys.A)) {
 
+
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {
-
+            // add sound effect
+            Assets.portal.getGlitchEffect().play();
         }
         if (Gdx.input.isKeyPressed(Input.Keys.W)) {
 
