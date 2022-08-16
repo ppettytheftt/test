@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import io.ppettytheftt.practice.entities.Enemy;
 import io.ppettytheftt.practice.entities.Player;
+import io.ppettytheftt.practice.entities.environment.SmallFire;
 
 
 // Gamescreen is the main Class I think
@@ -27,6 +28,7 @@ public class GameScreen extends ScreenAdapter {
     // Entities
     private Player player;
     private Enemy enemy;
+    private SmallFire small_fire;
 
     //constructor
     public GameScreen(Game game) {
@@ -52,6 +54,7 @@ public class GameScreen extends ScreenAdapter {
         sb.begin();
         player.render(sb);
         enemy.render(sb);
+        small_fire.render(sb);
         sb.end();
     }
 
@@ -65,6 +68,7 @@ public class GameScreen extends ScreenAdapter {
 
         player = new Player();
         enemy = new Enemy(3.5f);
+        small_fire = new SmallFire();
         Gdx.app.log(ID, "The game is running");
     }
 
@@ -88,6 +92,8 @@ public class GameScreen extends ScreenAdapter {
         runTime += deltaTime;
 
         player.update(deltaTime);
+        enemy.update(deltaTime);
+        small_fire.update(deltaTime);
         handleInput();
     }
 
