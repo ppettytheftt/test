@@ -23,7 +23,8 @@ public class Enemy extends GameObject {
 
     // update
     public void update(float deltaTime) {
-
+        sprite.translate(-.01f, 0f);
+        pos.x = sprite.getX();
     }
 
     // render

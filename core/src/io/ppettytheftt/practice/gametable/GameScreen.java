@@ -5,9 +5,11 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.utils.Array;
 import io.ppettytheftt.practice.entities.Enemy;
 import io.ppettytheftt.practice.entities.Player;
 import io.ppettytheftt.practice.entities.environment.SmallFire;
+import io.ppettytheftt.practice.entities.weapons.Bullet;
 import io.ppettytheftt.practice.handlers.Assets;
 import io.ppettytheftt.practice.handlers.GameStateManager;
 
@@ -23,9 +25,9 @@ public class GameScreen extends GameStateManager {
 
     // Entities
     private Player player;
-    private Enemy enemy;
+    private Array<Enemy> enemy;
+    private Array<Bullet> bullets;
     private SmallFire small_fire;
-
 
     //constructor
     public GameScreen(GameTable gameTable) {
@@ -33,6 +35,7 @@ public class GameScreen extends GameStateManager {
 
         Gdx.app.log(ID, "This class is loaded!");
     }
+
 
     // Game Loop
     @Override
@@ -50,14 +53,82 @@ public class GameScreen extends GameStateManager {
         // render things here
         sb.begin();
         player.render(sb);
-        enemy.render(sb);
+        for (Enemy e : enemy) {
+            e.render(sb);
+        }
+        for(Bullet b: bullets) {
+            b.render(sb);
+        }
         small_fire.render(sb);
         sb.setProjectionMatrix(font_cam.combined);
 
         sb.end();
     }
 
+
+    // our update method
+    @Override
+    public void update(float deltaTime) {
+        runTime += deltaTime;
+
+        player.update(deltaTime);
+        for (int i = 0; i < enemy.size; i++) {
+            Enemy e = enemy.get(i);
+
+            // update
+            e.update(deltaTime);
+            // remove method
+            if (e.isRemove()) {
+                enemy.removeIndex(i);
+            }
+        }
+        // update bullets
+        for (int i = 0; i < bullets.size; i++) {
+            Bullet b = bullets.get(i);
+            b.update(deltaTime);
+
+            if (b.isRemove()){
+                bullets.removeIndex(i);
+            }
+        }
+
+        small_fire.update(deltaTime);
+        handleInput();
+        checkCollision();
+    }
+
+    // Collision checking
+
+    private void checkCollision() {
+        // fire colliding
+        for (int i = 0; i < enemy.size; i++) {
+            Enemy e = enemy.get(i);
+
+            // collision
+            if (e.collide(player)) {
+                // remove the fire
+                e.setRemove(true);
+                Gdx.app.log(ID, "They Collide!");
+            }
+        }
+            //bullet -> enemy
+            for (int j =0; j< bullets.size; j++) {
+                Bullet b = bullets.get(j);
+
+                for(int i =0; i< enemy.size; i++) {
+                    Enemy e = enemy.get(i);
+
+                    if(b.collide(e)) {
+                        e.setRemove(true);
+                        b.setRemove(true);
+                    }
+                }
+            }
+        }
+
+
     // Methods
+    // this is where we create our graphics
     @Override
     public void show() {
         sb = new SpriteBatch();
@@ -70,8 +141,10 @@ public class GameScreen extends GameStateManager {
 
         // game objects
         player = new Player();
-        enemy = new Enemy(3.5f);
+        enemy = new Array<Enemy>();
+        enemy.add(new Enemy(3.5f));
         small_fire = new SmallFire();
+        bullets = new Array<Bullet>();
 
         //Audio
         Assets.portal.getBgm().setVolume(.5f);
@@ -90,26 +163,14 @@ public class GameScreen extends GameStateManager {
         Gdx.app.log(ID, "Game resumed!");
     }
 
-    // this is where we create our graphics
     private void createGraphics() {
 
     }
 
-    // our update method
-    @Override
-    public void update(float deltaTime) {
-        runTime += deltaTime;
-
-        player.update(deltaTime);
-        enemy.update(deltaTime);
-        small_fire.update(deltaTime);
-        handleInput();
-    }
-
     //Handle Input
     private void handleInput() {
-        if (Gdx.input.isKeyPressed(Input.Keys.A)) {
-
+        if (Gdx.input.isKeyPressed(Input.Keys.R)) {
+            bullets.add(new Bullet(player.getPos().x, player.getPos().y));
 
         }
         if (Gdx.input.isKeyPressed(Input.Keys.D)) {

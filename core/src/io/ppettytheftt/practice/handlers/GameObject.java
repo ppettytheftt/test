@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public abstract class GameObject {
@@ -11,7 +12,7 @@ public abstract class GameObject {
     protected Vector2 pos, dim;
     protected float speed;
     protected int health;
-
+    protected boolean hit, remove;
     //image
     protected Pixmap pixmap;
     protected Texture texture;
@@ -24,6 +25,9 @@ public abstract class GameObject {
         dim = new Vector2();
         speed = 0f;
         health = 0;
+
+        hit = false;
+        remove = false;
     }
 
     // Create graphics
@@ -44,6 +48,17 @@ public abstract class GameObject {
         sprite = new Sprite(texture);
     }
 
+    protected Rectangle getArea() {
+        return new Rectangle(pos.x, pos.y, dim.x, dim.y);
+    }
+
+    public boolean collide(GameObject object) {
+        Rectangle rectangle1 = getArea();
+        Rectangle rectangle2 = object.getArea();
+
+        return rectangle1.overlaps(rectangle2);
+    }
+
     // getters
     public Vector2 getPos() {
         return pos;
@@ -61,6 +76,10 @@ public abstract class GameObject {
         return health;
     }
 
+    public boolean isHit() {return hit;}
+
+    public boolean isRemove() {return remove;}
+
     // setters
     public void setPos(Vector2 pos) {
         this.pos = pos;
@@ -77,4 +96,6 @@ public abstract class GameObject {
     public void setHealth(int health) {
         this.health = health;
     }
+
+    public void setRemove(boolean b) { remove = b;}
 }
