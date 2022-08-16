@@ -7,14 +7,14 @@ import com.badlogic.gdx.utils.Disposable;
 public class Assets implements Disposable {
 
     public static Assets portal = new Assets();
-    private final String IMAGE_PATH = "sprites.atlas";
+    private final String IMAGE_PATH = "character.atlas";
     // main
     private AssetManager manager;
     private TextureAtlas atlas;
 
     // enemies
-    private TextureAtlas.AtlasRegion kitty;
-    private TextureAtlas.AtlasRegion fire;
+    private TextureAtlas.AtlasRegion wizard;
+
 
     // empty constructor
     private Assets() {
@@ -30,12 +30,12 @@ public class Assets implements Disposable {
         atlas = manager.get(IMAGE_PATH, TextureAtlas.class);
 
         // load assets by type
-        kitty = atlas.findRegion("Characters/kittykat");
+        wizard = atlas.findRegion("Untitled - 1");
     }
 
     // getters
-    public TextureAtlas.AtlasRegion getKitty() {
-        return kitty;
+    public TextureAtlas.AtlasRegion getWizard() {
+        return wizard;
     }
 
     @Override

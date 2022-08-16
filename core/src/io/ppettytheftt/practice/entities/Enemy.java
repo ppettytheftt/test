@@ -15,7 +15,7 @@ public class Enemy extends GameObject {
         dim.x = .5f;
         dim.y = .5f;
 
-        sprite = new Sprite(Assets.portal.getKitty());
+        sprite = new Sprite(Assets.portal.getWizard());
         sprite.setPosition(pos.x, pos.y);
         sprite.setSize(dim.x, dim.y);
 
