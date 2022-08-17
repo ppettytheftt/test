@@ -13,10 +13,10 @@ public class SmallFire extends GameObject {
 
     //constructor
     public SmallFire() {
-        pos.x = 1f;
-        pos.y =2f;
-        dim.x = 1f;
-        dim.y = 1f;
+        pos.x = 3f;
+        pos.y =4f;
+        dim.x = 2f;
+        dim.y = 2f;
 
         small_fire_animation = Assets.portal.getFireAnimation();
     }
