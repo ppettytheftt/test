@@ -15,7 +15,6 @@ public class PlayScreen extends GameStateManager {
     private final String ID = getClass().getName();
 
     private OrthogonalTiledMapRenderer renderer;
-    private TiledMap map;
 
     private float runtime;
 
@@ -79,7 +78,6 @@ public class PlayScreen extends GameStateManager {
 
     @Override
     public void dispose() {
-        map.dispose();
         renderer.dispose();
     }
 }

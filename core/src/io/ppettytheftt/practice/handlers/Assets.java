@@ -2,10 +2,8 @@ package io.ppettytheftt.practice.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.assets.loaders.resolvers.ClasspathFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -69,7 +67,7 @@ public class Assets implements Disposable {
         fire_animation.setPlayMode(Animation.PlayMode.LOOP);
 
         //loads our map into TmxMapLoader
-        map = new TmxMapLoader().load(TILED_MAP_PATH);
+        map = retrieveMap(TILED_MAP_PATH);
 
         //load audio
         // music
@@ -114,5 +112,10 @@ public class Assets implements Disposable {
         glitchEffect.dispose();
         titleFont.dispose();
         map.dispose();
+    }
+
+    private TiledMap retrieveMap(String mapPath) {
+        TmxMapLoader loader = new TmxMapLoader();
+        return loader.load(mapPath);
     }
 }
