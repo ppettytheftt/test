@@ -2,12 +2,16 @@ package io.ppettytheftt.practice.handlers;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.assets.loaders.resolvers.ClasspathFileHandleResolver;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.maps.tiled.TiledMap;
+import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.utils.Disposable;
 
 public class Assets implements Disposable {
@@ -15,6 +19,7 @@ public class Assets implements Disposable {
     public static Assets portal = new Assets();
     private final String CHARACTER_PATH = "character.atlas";
     private final String DECORE_PATH = "decore.atlas";
+    private final String TILED_MAP_PATH = "test-room1.tmx";
     // main
     private AssetManager characterManager;
     private AssetManager decorationManager;
@@ -27,6 +32,7 @@ public class Assets implements Disposable {
     // Game Objects
     private TextureAtlas.AtlasRegion wizard, smallFire;
     private Animation fire_animation;
+    private TiledMap map;
 
     // Audio
     private Music bgm;
@@ -49,7 +55,6 @@ public class Assets implements Disposable {
         // loads the wizard from the .atlas file from character.atlas
         wizard = characterAtlas.findRegion("Untitled - 1");
 
-        manager.clear();
         //load the small fire
         this.decorationManager = manager;
         manager.load(DECORE_PATH, TextureAtlas.class);
@@ -62,6 +67,9 @@ public class Assets implements Disposable {
         // creates animation
         fire_animation = new Animation<TextureRegion>(5f / 60f, small_fire_sprite[0]);
         fire_animation.setPlayMode(Animation.PlayMode.LOOP);
+
+        //loads our map into TmxMapLoader
+        map = new TmxMapLoader().load(TILED_MAP_PATH);
 
         //load audio
         // music
@@ -95,6 +103,9 @@ public class Assets implements Disposable {
         return glitchEffect;
     }
 
+    public TiledMap getTestRoom() { return map;}
+
+
     @Override
     public void dispose() {
         characterManager.dispose();
@@ -102,5 +113,6 @@ public class Assets implements Disposable {
         bgm.dispose();
         glitchEffect.dispose();
         titleFont.dispose();
+        map.dispose();
     }
 }

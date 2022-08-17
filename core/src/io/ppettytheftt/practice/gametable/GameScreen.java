@@ -44,7 +44,7 @@ public class GameScreen extends GameStateManager {
         Gdx.gl20.glClearColor(50f / 255.0f, 11f / 255.0f, 11f / 255.0f, 1);
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-        sb.setProjectionMatrix(cam.combined);
+        sb.setProjectionMatrix(camera.combined);
 
         // update
         update(deltaTime);
@@ -56,7 +56,7 @@ public class GameScreen extends GameStateManager {
         for (Enemy e : enemy) {
             e.render(sb);
         }
-        for(Bullet b: bullets) {
+        for (Bullet b : bullets) {
             b.render(sb);
         }
         small_fire.render(sb);
@@ -87,7 +87,7 @@ public class GameScreen extends GameStateManager {
             Bullet b = bullets.get(i);
             b.update(deltaTime);
 
-            if (b.isRemove()){
+            if (b.isRemove()) {
                 bullets.removeIndex(i);
             }
         }
@@ -111,20 +111,20 @@ public class GameScreen extends GameStateManager {
                 Gdx.app.log(ID, "They Collide!");
             }
         }
-            //bullet -> enemy
-            for (int j =0; j< bullets.size; j++) {
-                Bullet b = bullets.get(j);
+        //bullet -> enemy
+        for (int j = 0; j < bullets.size; j++) {
+            Bullet b = bullets.get(j);
 
-                for(int i =0; i< enemy.size; i++) {
-                    Enemy e = enemy.get(i);
+            for (int i = 0; i < enemy.size; i++) {
+                Enemy e = enemy.get(i);
 
-                    if(b.collide(e)) {
-                        e.setRemove(true);
-                        b.setRemove(true);
-                    }
+                if (b.collide(e)) {
+                    e.setRemove(true);
+                    b.setRemove(true);
                 }
             }
         }
+    }
 
 
     // Methods
@@ -132,9 +132,9 @@ public class GameScreen extends GameStateManager {
     @Override
     public void show() {
         sb = new SpriteBatch();
-        cam = new OrthographicCamera();
+        camera = new OrthographicCamera();
 
-        cam.setToOrtho(false, 5f, 5f);
+        camera.setToOrtho(false, 5f, 5f);
 
         font_cam = new OrthographicCamera();
         font_cam.setToOrtho(false, GAME_WIDTH, GAME_HEIGHT);

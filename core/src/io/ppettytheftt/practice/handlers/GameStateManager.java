@@ -3,14 +3,14 @@ package io.ppettytheftt.practice.handlers;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import io.ppettytheftt.practice.gametable.GameScreen;
 import io.ppettytheftt.practice.gametable.GameTable;
+import io.ppettytheftt.practice.states.PlayScreen;
 import io.ppettytheftt.practice.states.TitleScreen;
 
 public abstract class GameStateManager extends ScreenAdapter implements Constant {
     // vars
     protected SpriteBatch sb;
-    protected OrthographicCamera cam, font_cam;
+    protected OrthographicCamera camera, font_cam;
     protected GameTable game_table;
 
     public enum GameState {
@@ -31,7 +31,7 @@ public abstract class GameStateManager extends ScreenAdapter implements Constant
         if (state == GameState.TITLE){
             game_table.setScreen(new TitleScreen(game_table));
         } else if(state == GameState.START) {
-            game_table.setScreen(new GameScreen(game_table));
+            game_table.setScreen(new PlayScreen(game_table));
         }
     }
 }
